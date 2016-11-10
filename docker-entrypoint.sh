@@ -2,7 +2,7 @@
 set -e
 
 if [[ "$*" == npm*start* ]]; then
-  npm install --production
+  npm install -g --production
 
   chown -R app "$NODE_CONTENT"
 
