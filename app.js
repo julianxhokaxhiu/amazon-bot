@@ -12,7 +12,7 @@ var token = process.env.TELEGRAM_API_TOKEN || '';
 var bot = new TelegramBot(
   token,
   {
-    webhook: {
+    webHook: {
       port: process.env.PORT || '3000'
     }
   }
