@@ -17,6 +17,7 @@ RUN set -x \
 ENV NODE_CONTENT /home/app
 RUN mkdir -p "$NODE_CONTENT" && chown -R app:app "$NODE_CONTENT"
 VOLUME $NODE_CONTENT
+WORKDIR $NODE_CONTENT
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
