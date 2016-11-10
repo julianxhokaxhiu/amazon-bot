@@ -8,7 +8,15 @@ var client = amazon.createClient({
 });
 
 var token = process.env.TELEGRAM_API_TOKEN || '';
-var bot = new TelegramBot(token);
+
+var bot = new TelegramBot(
+  token,
+  {
+    webhook: {
+      port: process.env.PORT || '3000'
+    }
+  }
+);
 
 bot
 .setWebHook(
