@@ -1,4 +1,6 @@
+// See https://github.com/yagop/node-telegram-bot-api
 var TelegramBot = require('node-telegram-bot-api');
+// See https://github.com/t3chnoboy/amazon-product-api
 var amazon = require('amazon-product-api');
 
 var client = amazon.createClient({
@@ -23,13 +25,8 @@ bot
   process.env.BASE_URL + '/' + process.env.WEBHOOK_TOKEN
 );
 
-// Matches /echo [whatever]
 bot
-.onText(
-  /\/echo (.+)/,
-  function (msg, match) {
-    var fromId = msg.from.id;
-    var resp = match[1];
-    bot.sendMessage(fromId, resp);
-  }
-)
+.on( 'inline_query', function ( inlineQuery ){
+  bot
+  .answerInlineQuery( inlineQuery.id, [] );
+});
