@@ -35,7 +35,7 @@ bot
       id: '001',
       title: 'Lorem ipsum',
       input_message_content: {
-        message_text: 'Lorem ipsum dolor sit amet'
+        message_text: 'Lorem ipsum dolor sit amet\nhttp://www.lipsum.com/'
       },
       url: 'http://www.lipsum.com/',
       hide_url: true,
