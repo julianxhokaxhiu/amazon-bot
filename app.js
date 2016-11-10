@@ -26,14 +26,22 @@ bot
 );
 
 bot
-.onText(/\/echo (.+)/, function (msg, match) {
-  var fromId = msg.from.id;
-  var resp = match[1];
-  bot.sendMessage(fromId, resp);
-});
-
-bot
 .on( 'inline_query', function ( message ){
   bot
-  .answerInlineQuery( message.id, [] );
+  .answerInlineQuery(
+    message.id,
+    [{
+      type: 'article',
+      id: '001',
+      title: 'Lorem ipsum',
+      input_message_content: {
+        message_text: 'Lorem ipsum dolor sit amet'
+      },
+      url: 'http://www.lipsum.com/',
+      hide_url: true,
+      thumb_url: 'https://telegram.org/img/t_logo.png',
+      thumb_width: '64',
+      thumb_height: '64'
+    }]
+  );
 });
