@@ -40,8 +40,8 @@ bot
       url: 'http://www.lipsum.com/',
       hide_url: true,
       thumb_url: 'https://telegram.org/img/t_logo.png',
-      thumb_width: '64',
-      thumb_height: '64'
+      thumb_width: 64,
+      thumb_height: 64
     }]
   );
 });
