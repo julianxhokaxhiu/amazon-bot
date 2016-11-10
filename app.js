@@ -26,7 +26,14 @@ bot
 );
 
 bot
-.on( 'inline_query', function ( inlineQuery ){
+.onText(/\/echo (.+)/, function (msg, match) {
+  var fromId = msg.from.id;
+  var resp = match[1];
+  bot.sendMessage(fromId, resp);
+});
+
+bot
+.on( 'inline_query', function ( message ){
   bot
-  .answerInlineQuery( inlineQuery.id, [] );
+  .answerInlineQuery( message.id, [] );
 });
