@@ -31,4 +31,4 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 3000
-CMD ["pm2-docker", "app.js"]
+CMD ["pm2-docker", "process.json"]

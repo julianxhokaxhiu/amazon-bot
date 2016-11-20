@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [[ "$*" == pm2-docker*app.js* ]]; then
+if [[ "$*" == pm2-docker*process.json* ]]; then
   # fix permissions
   gosu root chown -R app:app "$APP_CONTENT"
 
