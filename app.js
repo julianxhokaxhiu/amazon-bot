@@ -4,6 +4,9 @@ var TelegramBot = require('node-telegram-bot-api');
 // See https://github.com/t3chnoboy/amazon-product-api
 var amazon = require('amazon-product-api');
 
+// See https://github.com/vkurchatkin/which-country
+var wc = require('which-country');
+
 // List of supported Amazon endpoints
 var amazonEndpoints = {
   'US' : 'webservices.amazon.com',
@@ -42,8 +45,20 @@ bot
     var query = message.query.split('@')[0],
         country = ( message.query.split('@')[1] || '').toUpperCase();
 
-    // Force the Amazon.com search if no country given
-    if ( !country ) country = 'US';
+    // Detect user country if not provided
+    if ( message.location ) {
+      country = wc([
+        message.location.latitude,
+        message.location.longitude
+      ]);
+    }
+
+    if ( !country )
+      // Force the Amazon.com search if no country given or detected
+      country = 'US';
+    else
+      // Get only the first two letters and convert them to uppercase
+      country = country.toUpperCase().substring(0,2)
 
     // If the country is given, always check if it's in the list
     if ( country in amazonEndpoints ) {

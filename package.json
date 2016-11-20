@@ -6,7 +6,8 @@
   },
   "dependencies": {
     "node-telegram-bot-api": "^0.24.0",
-    "amazon-product-api": "^0.4.2"
+    "amazon-product-api": "^0.4.2",
+    "which-country": "^1.0.0"
   },
   "private": true
 }
