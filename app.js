@@ -100,23 +100,30 @@ bot
             var answers = [];
 
             for ( var k in results ) {
-              var item = results[k];
+              var item = results[k],
+                  id = coalesce( item, k, 'ASIN', 0 ),
+                  price = coalesce( item, '-', 'OfferSummary', 0, 'LowestNewPrice', 0, 'FormattedPrice', 0 ),
+                  url = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'DetailPageURL', 0 ),
+                  title = coalesce( item, 'No Title', 'ItemAttributes', 0, 'Title', 0 ),
+                  imageUrl = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'URL', 0 ),
+                  imageWidth = parseInt( coalesce( item, 0, 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'Width', 0, '_' ) ),
+                  imageHeight = parseInt( coalesce( item, 0, 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'Height', 0, '_' ) );
 
               answers
               .push(
                 {
                   type: 'article',
-                  id: item.ASIN[0],
-                  title: '[' + item.OfferSummary[0].LowestNewPrice[0].FormattedPrice[0] + '] ' + item.ItemAttributes[0].Title[0],
+                  id: id,
+                  title: '[' + price + '] ' + title,
                   input_message_content: {
-                    message_text: item.ItemAttributes[0].Title[0] + '\n\n*Lowest Price:* ' + item.OfferSummary[0].LowestNewPrice[0].FormattedPrice[0] + '\n[See Article](' + item.DetailPageURL[0] + ')',
+                    message_text: title + '\n\n*Lowest Price:* ' + price + '\n[See Article](' + url + ')',
                     parse_mode: 'Markdown'
                   },
-                  url: item.DetailPageURL[0],
+                  url: url,
                   hide_url: false,
-                  thumb_url: item.ImageSets[0].ImageSet[0].SmallImage[0].URL[0],
-                  thumb_width: parseInt( item.ImageSets[0].ImageSet[0].SmallImage[0].Width[0]['_'] ),
-                  thumb_height: parseInt( item.ImageSets[0].ImageSet[0].SmallImage[0].Height[0]['_'] )
+                  thumb_url: imageUrl,
+                  thumb_width: imageWidth,
+                  thumb_height: imageHeight
                 }
               );
             }
@@ -157,4 +164,18 @@ var answerUser = function ( message, answer ) {
     message.id,
     answer
   );
+}
+
+var coalesce = function ( arr, default ) {
+    var i, max_i, ret = arr;
+
+    for (i = 2, max_i = arguments.length; i < max_i; i++) {
+        ret = ret[ arguments[i] ];
+        if (ret === undefined) {
+            ret = default;
+            break;
+        }
+    }
+
+    return ret;
 }
