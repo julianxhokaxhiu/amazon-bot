@@ -102,10 +102,12 @@ bot
             for ( var k in results ) {
               var item = results[k],
                   id = coalesce( item, k, 'ASIN', 0 ),
-                  price = coalesce( item, '-', 'OfferSummary', 0, 'LowestNewPrice', 0, 'FormattedPrice', 0 ),
+                  price = coalesce( item, null, 'OfferSummary', 0, 'LowestNewPrice', 0, 'FormattedPrice', 0 ),
+                  price = ( price ? '[' + price + ']' : '' ),
                   url = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'DetailPageURL', 0 ),
                   title = coalesce( item, 'No Title', 'ItemAttributes', 0, 'Title', 0 ),
                   imageUrl = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'URL', 0 ),
+                  largeImageUrl = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'ImageSets', 0, 'ImageSet', 0, 'LargeImage', 0, 'URL', 0 ),
                   imageWidth = parseInt( coalesce( item, 0, 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'Width', 0, '_' ) ),
                   imageHeight = parseInt( coalesce( item, 0, 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'Height', 0, '_' ) );
 
@@ -114,9 +116,9 @@ bot
                 {
                   type: 'article',
                   id: id,
-                  title: '[' + price + '] ' + title,
+                  title: price + title,
                   input_message_content: {
-                    message_text: title + '\n\n*Lowest Price:* ' + price + '\n[See Article](' + url + ')',
+                    message_text: '[' + title + '](' + url + ')' + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( largeImageUrl ? '\n\n*Image:* ' + largeImageUrl : '' ),
                     parse_mode: 'Markdown'
                   },
                   url: url,
