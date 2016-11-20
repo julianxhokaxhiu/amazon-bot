@@ -1,9 +1,6 @@
 {
   "name": "amazon-bot",
   "version": "0.0.1",
-  "scripts": {
-    "start": "node app.js"
-  },
   "dependencies": {
     "node-telegram-bot-api": "^0.24.0",
     "amazon-product-api": "^0.4.2"

@@ -1,11 +1,14 @@
 #!/bin/bash
 set -e
 
-if [[ "$*" == npm*start* ]]; then
+if [[ "$*" == pm2-docker*app.js* ]]; then
+  # fix permissions
+  gosu root chown -R app:app "$APP_CONTENT"
+
+  # Install production dependencies
   npm install --production
 
-  chown -R app "$NODE_CONTENT"
-
+  # Run the application as app user
   set -- gosu app "$@"
 fi
 
