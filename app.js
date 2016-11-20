@@ -6,7 +6,13 @@ var amazon = require('amazon-product-api');
 
 // List of supported Amazon endpoints
 var amazonEndpoints = {
-  'IT' : 'webservices.amazon.it'
+  'US' : 'webservices.amazon.com',
+  'CA' : 'webservices.amazon.ca',
+  'IT' : 'webservices.amazon.it',
+  'DE' : 'webservices.amazon.de',
+  'UK' : 'webservices.amazon.co.uk',
+  'ES' : 'webservices.amazon.es',
+  'FR' : 'webservices.amazon.fr'
 };
 
 // Telegram API Token
@@ -36,7 +42,12 @@ bot
     var query = message.query.split('@')[0],
         country = ( message.query.split('@')[1] || '').toUpperCase();
 
+    // Force the Amazon.com search if no country given
+    if ( !country ) country = 'US';
+
+    // If the country is given, always check if it's in the list
     if ( country in amazonEndpoints ) {
+
       // Create the Amazon Client
       var client = amazon.createClient({
         awsId: process.env.AMAZON_ACCESS_ID || '',
