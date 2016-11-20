@@ -166,13 +166,13 @@ var answerUser = function ( message, answer ) {
   );
 }
 
-var coalesce = function ( arr, default ) {
+var coalesce = function ( arr, def ) {
     var i, max_i, ret = arr;
 
     for (i = 2, max_i = arguments.length; i < max_i; i++) {
         ret = ret[ arguments[i] ];
         if (ret === undefined) {
-            ret = default;
+            ret = def;
             break;
         }
     }
