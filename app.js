@@ -118,7 +118,7 @@ bot
                   id: id,
                   title: price + title,
                   input_message_content: {
-                    message_text: '[' + title + '](' + url + ')' + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( largeImageUrl ? '\n\n*Image:* ' + largeImageUrl : '' ),
+                    message_text: '[' + title + '](' + url + ')' + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( largeImageUrl ? '\n\n*Large Image:* ' + largeImageUrl : '' ),
                     parse_mode: 'Markdown'
                   },
                   url: url,
