@@ -7,9 +7,6 @@ var amazon = require('amazon-product-api');
 // See https://github.com/vkurchatkin/which-country
 var wc = require('which-country');
 
-// See https://github.com/kemitchell/markdown-escape.js
-var markdownEscape = require('markdown-escape')
-
 // List of supported Amazon endpoints
 var amazonEndpoints = {
   'US' : 'webservices.amazon.com',
@@ -123,7 +120,7 @@ bot
                   id: id,
                   title: price + title,
                   input_message_content: {
-                    message_text: '[' + markdownEscape(title) + '](' + url + ')' + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( largeImageUrl ? '\n\n*Large Image:* ' + largeImageUrl : '' ),
+                    message_text: '[' + titleEscape(title) + '](' + url + ')' + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( largeImageUrl ? '\n\n*Large Image:* ' + largeImageUrl : '' ),
                     parse_mode: 'Markdown'
                   },
                   url: url,
@@ -185,4 +182,26 @@ var coalesce = function ( arr, def ) {
     }
 
     return ret;
+}
+
+var titleEscape = function ( string ) {
+  var replacements = [
+    [ /\*/g, '\\*' ],
+    [ /#/g, '\\#' ],
+    [ /\//g, '\\/' ],
+    //[ /\(/g, '\\(' ],
+    //[ /\)/g, '\\)' ],
+    [ /\[/g, '\\[' ],
+    [ /\]/g, '\\]' ],
+    [ /\</g, '&lt;' ],
+    [ /\>/g, '&gt;' ],
+    [ /_/g, '\\_' ] ]
+
+  return replacements
+    .reduce(
+      function(string, replacement) {
+        return string.replace(replacement[0], replacement[1])
+      },
+      string
+    )
 }
