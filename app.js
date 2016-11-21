@@ -88,7 +88,6 @@ bot
               var item = results[k],
                   id = coalesce( item, k, 'ASIN', 0 ),
                   price = coalesce( item, null, 'OfferSummary', 0, 'LowestNewPrice', 0, 'FormattedPrice', 0 ),
-                  price = ( price ? '[' + price + ']' : '' ),
                   url = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'DetailPageURL', 0 ),
                   title = coalesce( item, 'No Title', 'ItemAttributes', 0, 'Title', 0 ),
                   imageUrl = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'URL', 0 ),
@@ -101,7 +100,7 @@ bot
                 {
                   type: 'article',
                   id: id,
-                  title: price + title,
+                  title: '[' + price + '] ' + title,
                   input_message_content: {
                     message_text: '<a href="' + url + '">' + title + '</a>' + ( price ? '\n\n<strong>Lowest Price:</strong> ' + price : '' ) + ( largeImageUrl ? '\n\n<strong>Large Image:</strong> ' + largeImageUrl : '' ),
                     parse_mode: 'HTML'
