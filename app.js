@@ -78,20 +78,21 @@ bot
           keywords: query,
           searchIndex: 'All',
           responseGroup: 'Images,ItemAttributes,OfferSummary',
-          sort: 'relevance',
           domain: amazonEndpoints[ country ]
         },
         function (error, results) {
           if (error) {
+            // Log the error
+            console.log( error );
             // Craft error message
             answerUser(
               message,
               [{
                 type: 'article',
                 id: '000',
-                title: 'Unknown Error',
+                title: 'Query error. Please retry with something different.',
                 input_message_content: {
-                  message_text: "Sorry, something bad happened. Please try later :("
+                  message_text: ''
                 },
                 url: '',
                 hide_url: true,
@@ -150,7 +151,7 @@ bot
           id: '000',
           title: 'Unsupported country',
           input_message_content: {
-            message_text: "Sorry, I do not support the country you're asking for :("
+            message_text: ''
           },
           url: '',
           hide_url: true,
