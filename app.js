@@ -120,7 +120,7 @@ bot
                   id: id,
                   title: price + title,
                   input_message_content: {
-                    message_text: '<a href="' + url + '">' + title + '</a>' + ( price ? '<br><br><strong>Lowest Price:</strong> ' + price : '' ) + ( largeImageUrl ? '<br><br><strong>Large Image:</strong> ' + largeImageUrl : '' ),
+                    message_text: '<a href="' + url + '">' + title + '</a>' + ( price ? '\n\n<strong>Lowest Price:</strong> ' + price : '' ) + ( largeImageUrl ? '\n\n<strong>Large Image:</strong> ' + largeImageUrl : '' ),
                     parse_mode: 'HTML'
                   },
                   url: url,
