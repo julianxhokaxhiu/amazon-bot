@@ -89,7 +89,7 @@ bot
                 id: '000',
                 title: 'Query error. Please retry with something different.',
                 input_message_content: {
-                  message_text: ''
+                  message_text: ' '
                 },
                 url: '',
                 hide_url: true,
@@ -148,7 +148,7 @@ bot
           id: '000',
           title: 'Unsupported country',
           input_message_content: {
-            message_text: ''
+            message_text: ' '
           },
           url: '',
           hide_url: true,
