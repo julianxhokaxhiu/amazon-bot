@@ -7,6 +7,9 @@ var amazon = require('amazon-product-api');
 // See https://github.com/vkurchatkin/which-country
 var wc = require('which-country');
 
+// See https://github.com/kemitchell/markdown-escape.js
+var markdownEscape = require('markdown-escape')
+
 // List of supported Amazon endpoints
 var amazonEndpoints = {
   'US' : 'webservices.amazon.com',
@@ -75,6 +78,7 @@ bot
           keywords: query,
           searchIndex: 'All',
           responseGroup: 'Images,ItemAttributes,OfferSummary',
+          sort: 'relevance',
           domain: amazonEndpoints[ country ]
         },
         function (error, results) {
@@ -118,7 +122,7 @@ bot
                   id: id,
                   title: price + title,
                   input_message_content: {
-                    message_text: '[' + title + '](' + url + ')' + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( largeImageUrl ? '\n\n*Large Image:* ' + largeImageUrl : '' ),
+                    message_text: '[' + markdownEscape(title) + '](' + url + ')' + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( largeImageUrl ? '\n\n*Large Image:* ' + largeImageUrl : '' ),
                     parse_mode: 'Markdown'
                   },
                   url: url,
