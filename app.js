@@ -81,23 +81,6 @@ bot
           if (error) {
             // Log the error
             console.log( error );
-            // Craft error message
-            answerUser(
-              message,
-              [{
-                type: 'article',
-                id: '000',
-                title: 'Query error. Please retry with something different.',
-                input_message_content: {
-                  message_text: ' '
-                },
-                url: '',
-                hide_url: true,
-                thumb_url: '',
-                thumb_width: 64,
-                thumb_height: 64
-              }]
-            )
           } else {
             var answers = [];
 
@@ -138,24 +121,6 @@ bot
             )
           }
         }
-      )
-    } else {
-      // Craft unsupported message
-      answerUser(
-        message,
-        [{
-          type: 'article',
-          id: '000',
-          title: 'Unsupported country',
-          input_message_content: {
-            message_text: ' '
-          },
-          url: '',
-          hide_url: true,
-          thumb_url: '',
-          thumb_width: 64,
-          thumb_height: 64
-        }]
       )
     }
   }
