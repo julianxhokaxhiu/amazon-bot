@@ -120,8 +120,8 @@ bot
                   id: id,
                   title: price + title,
                   input_message_content: {
-                    message_text: '[' + titleEscape(title) + '](' + url + ')' + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( largeImageUrl ? '\n\n*Large Image:* ' + largeImageUrl : '' ),
-                    parse_mode: 'Markdown'
+                    message_text: '<a href="' + url + '">' + title + '</a>' + ( price ? '<br><br><strong>Lowest Price:</strong> ' + price : '' ) + ( largeImageUrl ? '<br><br><strong>Large Image:</strong> ' + largeImageUrl : '' ),
+                    parse_mode: 'HTML'
                   },
                   url: url,
                   hide_url: false,
@@ -182,26 +182,4 @@ var coalesce = function ( arr, def ) {
     }
 
     return ret;
-}
-
-var titleEscape = function ( string ) {
-  var replacements = [
-    [ /\*/g, '\\*' ],
-    [ /#/g, '\\#' ],
-    [ /\//g, '\\/' ],
-    //[ /\(/g, '\\(' ],
-    //[ /\)/g, '\\)' ],
-    [ /\[/g, '\\[' ],
-    [ /\]/g, '\\]' ],
-    [ /\</g, '&lt;' ],
-    [ /\>/g, '&gt;' ],
-    [ /_/g, '\\_' ] ]
-
-  return replacements
-    .reduce(
-      function(string, replacement) {
-        return string.replace(replacement[0], replacement[1])
-      },
-      string
-    )
 }
