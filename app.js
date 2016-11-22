@@ -106,7 +106,7 @@ bot
                     message_text: title + ( price ? '\n\n<b>Lowest Price:</b> ' + price : '' ) + ( imageUrl ? '\n\n' + imageUrl : '' ),
                     parse_mode: 'HTML'
                   },
-                  inline_keyboard: [
+                  reply_markup: [
                     {
                       text: 'Open in ' + endpoint.charAt(0).toUpperCase(),
                       url: url
