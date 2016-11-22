@@ -105,7 +105,7 @@ bot
                 {
                   type: 'article',
                   id: id,
-                  title: '[' + price + '] ' + title,
+                  title: ( price ? '[' + price + ']' : '' ) + title,
                   input_message_content: {
                     message_text: title + ( price ? '\n\n<b>Lowest Price:</b> ' + price : '' ) + ( imageUrl ? '\n\n' + imageUrl : '' ),
                     parse_mode: 'HTML'
