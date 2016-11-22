@@ -82,13 +82,14 @@ bot
             // Log the error
             console.log( error );
           } else {
-            var answers = [];
+            var answers = [],
+                endpoint = amazonEndpoints[ country ].replace('webservices.','');
 
             for ( var k in results ) {
               var item = results[k],
                   id = coalesce( item, k, 'ASIN', 0 ),
                   price = coalesce( item, null, 'OfferSummary', 0, 'LowestNewPrice', 0, 'FormattedPrice', 0 ),
-                  url = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'DetailPageURL', 0 ),
+                  url = coalesce( item, 'https://' + endpoint, 'DetailPageURL', 0 ),
                   title = coalesce( item, 'No Title', 'ItemAttributes', 0, 'Title', 0 ),
                   imageUrl = coalesce( item, '', 'ImageSets', 0, 'ImageSet', 0, 'LargeImage', 0, 'URL', 0 ),
                   thumbUrl = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'URL', 0 ),
@@ -102,12 +103,12 @@ bot
                   id: id,
                   title: '[' + price + '] ' + title,
                   input_message_content: {
-                    message_text: title + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( imageUrl ? '\n\n' + imageUrl : '' ),
-                    parse_mode: 'Markdown'
+                    message_text: title + ( price ? '\n\n<b>Lowest Price:</b> ' + price : '' ) + ( imageUrl ? '\n\n' + imageUrl : '' ),
+                    parse_mode: 'HTML'
                   },
                   inline_keyboard: [
                     {
-                      text: 'Open in ' + amazonEndpoints[ country ].replace('webservices.',''),
+                      text: 'Open in ' + endpoint.charAt(0).toUpperCase(),
                       url: url
                     }
                   ],
