@@ -90,10 +90,10 @@ bot
                   price = coalesce( item, null, 'OfferSummary', 0, 'LowestNewPrice', 0, 'FormattedPrice', 0 ),
                   url = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'DetailPageURL', 0 ),
                   title = coalesce( item, 'No Title', 'ItemAttributes', 0, 'Title', 0 ),
-                  imageUrl = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'URL', 0 ),
-                  largeImageUrl = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'ImageSets', 0, 'ImageSet', 0, 'LargeImage', 0, 'URL', 0 ),
-                  imageWidth = parseInt( coalesce( item, 0, 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'Width', 0, '_' ) ),
-                  imageHeight = parseInt( coalesce( item, 0, 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'Height', 0, '_' ) );
+                  imageUrl = coalesce( item, '', 'ImageSets', 0, 'ImageSet', 0, 'LargeImage', 0, 'URL', 0 ),
+                  thumbUrl = coalesce( item, amazonEndpoints[ country ].replace('webservices.','https://'), 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'URL', 0 ),
+                  thumbWidth = parseInt( coalesce( item, 0, 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'Width', 0, '_' ) ),
+                  thumbHeight = parseInt( coalesce( item, 0, 'ImageSets', 0, 'ImageSet', 0, 'SmallImage', 0, 'Height', 0, '_' ) );
 
               answers
               .push(
@@ -102,14 +102,20 @@ bot
                   id: id,
                   title: '[' + price + '] ' + title,
                   input_message_content: {
-                    message_text: '<a href="' + url + '">' + title + '</a>' + ( price ? '\n\n<strong>Lowest Price:</strong> ' + price : '' ) + ( largeImageUrl ? '\n\n<strong>Large Image:</strong> ' + largeImageUrl : '' ),
-                    parse_mode: 'HTML'
+                    message_text: title + ( price ? '\n\n*Lowest Price:* ' + price : '' ) + ( imageUrl ? '\n\n' + imageUrl : '' ),
+                    parse_mode: 'Markdown'
                   },
+                  inline_keyboard: [
+                    {
+                      text: 'Open in ' + amazonEndpoints[ country ].replace('webservices.',''),
+                      url: url
+                    }
+                  ],
                   url: url,
                   hide_url: false,
-                  thumb_url: imageUrl,
-                  thumb_width: imageWidth,
-                  thumb_height: imageHeight
+                  thumb_url: thumbUrl,
+                  thumb_width: thumbWidth,
+                  thumb_height: thumbHeight
                 }
               );
             }
