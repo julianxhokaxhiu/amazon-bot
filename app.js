@@ -1,3 +1,7 @@
+// See http://stackoverflow.com/a/3291856
+String.prototype.capitalize = function() {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}
 // See https://github.com/yagop/node-telegram-bot-api
 var TelegramBot = require('node-telegram-bot-api');
 
@@ -109,7 +113,7 @@ bot
                   reply_markup: {
                     inline_keyboard: [
                       [{
-                        text: 'Open in ' + endpoint.charAt(0).toUpperCase(),
+                        text: 'Open in ' + endpoint.capitalize(),
                         url: url
                       }]
                     ],
