@@ -106,12 +106,14 @@ bot
                     message_text: title + ( price ? '\n\n<b>Lowest Price:</b> ' + price : '' ) + ( imageUrl ? '\n\n' + imageUrl : '' ),
                     parse_mode: 'HTML'
                   },
-                  reply_markup: [
-                    {
-                      text: 'Open in ' + endpoint.charAt(0).toUpperCase(),
-                      url: url
-                    }
-                  ],
+                  reply_markup: {
+                    inline_keyboard: [
+                      [{
+                        text: 'Open in ' + endpoint.charAt(0).toUpperCase(),
+                        url: url
+                      }]
+                    ],
+                  },
                   url: url,
                   hide_url: false,
                   thumb_url: thumbUrl,
