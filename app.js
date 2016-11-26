@@ -58,13 +58,13 @@ Default fallback logic: location ( if available ) -> your setting ( if set ) -> 
 
 You can control me by sending these commands:
 
-* COUNTRY OPTION*
+*COUNTRY OPTION*
 /set country={COUNTRY_CODE}
 *Supported list:* {cc_list}
 
 This option will set your default country amoung all your chats. If you need to change it, just run this command again.
 
-Example: \`/set country=CA\`
+Example: >> /set country=CA <<
   `;
 
   resp = resp.replace('{cc_list}', Object.keys(amazonEndpoints).join(',') );
