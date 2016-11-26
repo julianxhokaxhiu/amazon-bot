@@ -67,7 +67,7 @@ This option will set your default country amoung all your chats. If you need to 
 Example: >> /set country=CA <<
   `;
 
-  resp = resp.replace('{cc_list}', Object.keys(amazonEndpoints).join(',') );
+  resp = resp.replace('{cc_list}', Object.keys(amazonEndpoints).join(', ') );
 
   bot.sendMessage(chatId, resp);
 });
