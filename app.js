@@ -58,7 +58,7 @@ Default fallback logic: location ( if available ) -> your setting ( if set ) -> 
 
 You can control me by sending these commands:
 
--= COUNTRY OPTION =-
+-=[ COUNTRY OPTION ]=-
 /set country={COUNTRY_CODE}
 > Supported list: {cc_list}
 
