@@ -50,7 +50,8 @@ bot
 
 // User is asking for help, or is geeting me for the first time
 bot.onText(/\/help|\/start/, function (msg, match) {
-  var help = `
+  var chatId = msg.chat.id,
+      resp = `
 This Bot will help you to search your favourite Amazon products directly from here.
 If you do not pass any {country code} into the inline query, a default assumption will be used.
 Default fallback logic: location ( if available ) -> your setting ( if set ) -> US. The first that matches, is the winner.
