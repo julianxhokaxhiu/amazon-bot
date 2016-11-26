@@ -48,8 +48,8 @@ bot
   process.env.BASE_URL + '/' + process.env.WEBHOOK_TOKEN
 );
 
-// User is asking for help, provide some
-bot.onText(/\/help/, function (msg, match) {
+// User is asking for help, or is geeting me for the first time
+bot.onText(/\/help|\/start/, function (msg, match) {
   var help = `
 This Bot will help you to search your favourite Amazon products directly from here.
 If you do not pass any {country code} into the inline query, a default assumption will be used.
