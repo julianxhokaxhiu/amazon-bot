@@ -67,7 +67,7 @@ Example: /set COUNTRY=CA
 ---
   `;
 
-  resp.replace('{cc_list}', Object.keys(amazonEndpoints).join(',') );
+  resp = resp.replace('{cc_list}', Object.keys(amazonEndpoints).join(',') );
 
   bot.sendMessage(chatId, resp);
 });
