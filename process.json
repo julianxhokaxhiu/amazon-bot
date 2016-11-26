@@ -2,7 +2,7 @@
     "apps" : [{
         "name"            : "app",
         "script"          : "app.js",
-        "watch"           : true,
+        "watch"           : ["app.js"],
         "log_date_format" : "YYYY-MM-DD HH:mm Z"
     }]
 }
