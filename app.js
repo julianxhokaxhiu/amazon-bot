@@ -58,18 +58,20 @@ Default fallback logic: location ( if available ) -> your setting ( if set ) -> 
 
 You can control me by sending these commands:
 
----
-/set COUNTRY={COUNTRY CODE} [ Supported list: {cc_list} ]
+* COUNTRY OPTION*
+/set country={COUNTRY_CODE}
+*Supported list:* {cc_list}
 
 This option will set your default country amoung all your chats. If you need to change it, just run this command again.
 
-Example: /set COUNTRY=CA
----
+Example: \`/set country=CA\`
   `;
 
   resp = resp.replace('{cc_list}', Object.keys(amazonEndpoints).join(',') );
 
-  bot.sendMessage(chatId, resp);
+  bot.sendMessage(chatId, resp, {
+    parse_mode: 'Markdown'
+  });
 });
 
 // Save user preferences...
@@ -108,7 +110,7 @@ var answerUser = function ( message, userOptions ) {
 
       // Detect if user set a default, update only if not find by the location
       if ( !country && 'country' in userOptions ) {
-        country = userOptions.country;
+        country = userOptions.country.toUpperCase();
       }
 
       // Force the Amazon.com search if no country given or detected
