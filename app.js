@@ -11,6 +11,13 @@ var amazon = require('amazon-product-api');
 // See https://github.com/vkurchatkin/which-country
 var wc = require('which-country');
 
+// See https://github.com/louischatriot/nedb
+var Datastore = require('nedb'),
+    db = new Datastore({
+      filename: 'datastore.db',
+      autoload: true
+    });
+
 // List of supported Amazon endpoints
 var amazonEndpoints = {
   'US' : 'webservices.amazon.com',
@@ -41,26 +48,65 @@ bot
   process.env.BASE_URL + '/' + process.env.WEBHOOK_TOKEN
 );
 
+// User is asking for help, provide some
+bot.onText(/\/help/, function (msg, match) {
+  var help = `
+This Bot will help you to search your favourite Amazon products directly from here.
+If you do not pass any {country code} into the inline query, a default assumption will be used.
+Default fallback logic: location ( if available ) -> your setting ( if set ) -> US. The first that matches, is the winner.
+
+You can control me by sending these commands:
+
+/set COUNTRY={COUNTRY CODE} [Supported list: {list}]
+This option will set your default country amoung all your chats. If you need to change it, just run this command again.
+Example: /set COUNTRY=CA
+  `;
+
+  bot.sendMessage(chatId, resp);
+});
+
+// Save user preferences...
+bot.onText(/\/set (.+)/, function (msg, match) {
+  var chatId = msg.chat.id,
+      userId = msg.from.id,
+      option = match[1],
+
+  setUserOption( userId, option, function ( resp ){
+    bot.sendMessage(chatId, resp);
+  });
+});
+
 // Once the user is searching...
 bot
 .on( 'inline_query', function ( message ){
+  getUserOptions( message.from.id, function (options) {
+    answerUser( message, options );
+  })
+});
+
+var answerUser = function ( message, userOptions ) {
   if ( message.query ) {
     // Get the country where to query
     var query = message.query.split('@')[0],
         country = ( message.query.split('@')[1] || '').toUpperCase();
 
-    // Detect user country if not provided
-    if ( message.location ) {
-      country = wc([
-        message.location.latitude,
-        message.location.longitude
-      ]);
-    }
+    if ( !country ) {
+      // Detect user country if provided
+      if ( message.location ) {
+        country = wc([
+          message.location.latitude,
+          message.location.longitude
+        ]);
+      }
 
-    if ( !country )
+      // Detect if user set a default, update only if not find by the location
+      if ( !country && 'country' in userOptions ) {
+        country = userOptions.country;
+      }
+
       // Force the Amazon.com search if no country given or detected
-      country = 'US';
-    else
+      if ( !country ) country = 'US';
+    } else
       // Get only the first two letters and convert them to uppercase
       country = country.toUpperCase().substring(0,2)
 
@@ -74,7 +120,8 @@ bot
         awsTag: process.env['AMAZON_ASSOCIATE_TAG_' + country] || ''
       });
 
-      client.itemSearch(
+      client
+      .itemSearch(
         {
           keywords: query,
           searchIndex: 'All',
@@ -127,24 +174,16 @@ bot
               );
             }
 
-            answerUser(
-              message,
+            bot
+            .answerInlineQuery(
+              message.id,
               answers
-            )
+            );
           }
         }
       )
     }
   }
-});
-
-var answerUser = function ( message, answer ) {
-  // Craft answer
-  bot
-  .answerInlineQuery(
-    message.id,
-    answer
-  );
 }
 
 var coalesce = function ( arr, def ) {
@@ -159,4 +198,56 @@ var coalesce = function ( arr, def ) {
     }
 
     return ret;
+}
+
+var getUserOptions = function ( uid, cb ) {
+  var ret = {};
+
+  db
+  .find(
+    {
+      userid: uid
+    },
+    function ( err, docs ) {
+      if (!err)
+        ret = docs[0];
+
+      cb(ret);
+    }
+  )
+}
+
+var setUserOption = function ( uid, option, cb ) {
+  var ret = 'Success! Option updated. /help',
+      userOptions = {
+        userid: uid
+      },
+      option = ( option ? option.split('=') : [] );
+
+  if ( option.length == 2 ) {
+    var key = option[0],
+        value = ( option[1] ? option[1] : '' );
+
+    userOptions[ key.toLowerCase() ] = value;
+
+    db
+    .update(
+      {
+        userid: uid,
+      },
+      userOptions,
+      {
+        upsert: true,
+      },
+      function (err, newDoc) {
+        if (err)
+          ret = 'Something went wrong. Please retry later. /help';
+
+        cb(ret);
+      }
+    )
+  } else {
+    ret = 'Fail! Option syntax is not valid. /help';
+    cb(ret);
+  }
 }

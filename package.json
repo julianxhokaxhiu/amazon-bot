@@ -5,8 +5,9 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "node-telegram-bot-api": "^0.24.0",
     "amazon-product-api": "^0.4.2",
+    "nedb": "^1.8.0",
+    "node-telegram-bot-api": "^0.24.0",
     "which-country": "^1.0.0"
   },
   "private": true
