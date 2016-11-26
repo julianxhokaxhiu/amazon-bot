@@ -69,7 +69,7 @@ Example: /set COUNTRY=CA
 bot.onText(/\/set (.+)/, function (msg, match) {
   var chatId = msg.chat.id,
       userId = msg.from.id,
-      option = match[1],
+      option = match[1];
 
   setUserOption( userId, option, function ( resp ){
     bot.sendMessage(chatId, resp);
